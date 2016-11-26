@@ -99,6 +99,9 @@ section.other_links {
     a {
     	font-size: 15px;
     	color: rgba(0, 0, 0, 0.51);
+    	&:hover {
+    		color:#000;
+    	}
     }
 
 }
