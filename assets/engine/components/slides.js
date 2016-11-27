@@ -19,7 +19,7 @@ Prometheus.Slides = {
 			}, 500, function(){
 				setTimeout(function(){
 					user_clicked_pagination = 0;
-				}, 0)
+				}, 100)
 				
 			})
 		})
