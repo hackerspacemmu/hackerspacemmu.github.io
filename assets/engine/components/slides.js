@@ -1,4 +1,5 @@
 var Prometheus = Prometheus || {};
+var user_clicked_pagination = 0;
 Prometheus.Slides = {
 	init: function(){
 
@@ -8,50 +9,15 @@ Prometheus.Slides = {
 		}, 300)
 		Prometheus.Slides.buildPagination()
 
-		$('body').on("click", '#find_button', function(){
-			$('#main_header').removeClass('bezier').addClass('hidden')
-			var link = $(this).attr('data-href')
-			$('#find_button').addClass('animate')
-
-			var slide = $('#what_slide')
-			slide.addClass('fixed')
-			$('html, body').animate({
-				"scrollTop" : 0
-			}, 100)
-			setTimeout(function(){
-				
-				setTimeout(function(){
-					History.pushState( { state: '__async' }, '', link);
-
-				}, 400)
-			}, 200)
-
-		})
-
-		$('body').on('click', '#case_studies_list li a', function(e){
-			e.preventDefault()
-			var link = $(this).attr('data-href')
-			case_id = $(this).attr('data-id')
-			$('#work_slide').addClass('fixed').css("width", $('.container').width())
-			$('#main_header').addClass('hidden')
-			$('html, body').animate({ 
-				"scrollTop": 0 
-			}, 200)
-
-			setTimeout(function(){
-				History.pushState( { state: '__async' }, '', link);
-			}, 200);
-			
-			return false;
-
-		})
-
 		$('.slides_nav a').on("click", function(){
+			user_clicked_pagination = 1;
 			$('.slides_nav a').removeClass('current')
 			var element = $(this)
 			element.addClass('current')
 			$('body, html').animate({
 				scrollTop: $('.slide[data-id="'+ element.attr('data-id') +'"]').offset().top
+			}, 200, function(){
+				user_clicked_pagination = 0;
 			})
 		})
 
@@ -61,11 +27,8 @@ Prometheus.Slides = {
 			$(this).attr('data-id', slide_count)
 		})
 
-		showcase_animate();
+
 		
-	},
-	bg_extender: function(bg) {
-		bg.parent('.slide').addClass('bazier').css("height", $(window).height() + ($(window).scrollTop() - bg.offset().top))
 	},
 	resizeSlide:function(){
 		$('.slide').css('width', $('.container').width())
@@ -141,24 +104,25 @@ $(window).scroll(function(){
 
 	scroll = $(window).scrollTop();
 
-	if ( scroll > scrollTop ) {
-		var slide = $('.slide.current').next()
-		if ( slide.length > 0 ) { 
-			count = slide.offset().top - ($('.slide.current').outerHeight() / 2) - $('.slide_pagination').outerHeight()
-			if ( $(window).scrollTop() > count ) {
-				Prometheus.Slides.scrollToSlide(slide)	
-			}
-		}
-	} else {
-		slide = $('.slide.current').prev()
+	if ( user_clicked_pagination == 0 ) { 
+		if ( scroll > scrollTop ) {
+			var slide = $('.slide.current').next()
 			if ( slide.length > 0 ) { 
-			count = slide.offset().top + slide.outerHeight() - $('.slide_pagination').outerHeight()
-			console.log(4)
-			if ( $(window).scrollTop() < count ) {
-				Prometheus.Slides.scrollToSlide(slide)
+				count = slide.offset().top - ($('.slide.current').outerHeight() / 2) - $('.slide_pagination').outerHeight()
+				if ( $(window).scrollTop() > count ) {
+					Prometheus.Slides.scrollToSlide(slide)	
+				}
+			}
+		} else {
+			slide = $('.slide.current').prev()
+				if ( slide.length > 0 ) { 
+				count = slide.offset().top + slide.outerHeight() - $('.slide_pagination').outerHeight()
+				console.log(4)
+				if ( $(window).scrollTop() < count ) {
+					Prometheus.Slides.scrollToSlide(slide)
+				}
 			}
 		}
-		
 	}
 
 	$('.slide').each(function(){
@@ -182,23 +146,3 @@ $(window).scroll(function(){
 	}
 
 })
-
-function showcase_animate(){
-	var items = ["onestop", "caztech", "delvik", "musclemania"]
-	i = 0
-	var showcaseGallery = setInterval(function(){
-		$('.showcase li').removeClass('caztech onestop delvik musclemania').addClass(items[i])
-		if ( i == 3 ) {
-			i = -1
-		} 
-		i++
-	}, 2000)
-	showcaseGallery;
-}
-
-function hero_slide_animate(){
-	$('#prev_figure').addClass('animate')
-	setTimeout(function(){
-		$('#prev_figure').addClass('animate2')
-	}, 200)
-}
