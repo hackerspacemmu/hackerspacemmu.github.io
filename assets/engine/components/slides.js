@@ -16,8 +16,11 @@ Prometheus.Slides = {
 			element.addClass('current')
 			$('body, html').animate({
 				scrollTop: $('.slide[data-id="'+ element.attr('data-id') +'"]').offset().top
-			}, 200, function(){
-				user_clicked_pagination = 0;
+			}, 1000, function(){
+				setTimeout(function(){
+					user_clicked_pagination = 0;
+				}, 200)
+				
 			})
 		})
 
@@ -104,26 +107,30 @@ $(window).scroll(function(){
 
 	scroll = $(window).scrollTop();
 
-	if ( user_clicked_pagination == 0 ) { 
-		if ( scroll > scrollTop ) {
-			var slide = $('.slide.current').next()
-			if ( slide.length > 0 ) { 
-				count = slide.offset().top - ($('.slide.current').outerHeight() / 2) - $('.slide_pagination').outerHeight()
-				if ( $(window).scrollTop() > count ) {
+	
+	if ( scroll > scrollTop ) {
+		var slide = $('.slide.current').next()
+		if ( slide.length > 0 ) { 
+			count = slide.offset().top - ($('.slide.current').outerHeight() / 2) - $('.slide_pagination').outerHeight()
+			if ( $(window).scrollTop() > count ) {
+				if ( user_clicked_pagination == 0 ) { 
 					Prometheus.Slides.scrollToSlide(slide)	
 				}
 			}
-		} else {
-			slide = $('.slide.current').prev()
-				if ( slide.length > 0 ) { 
-				count = slide.offset().top + slide.outerHeight() - $('.slide_pagination').outerHeight()
-				console.log(4)
-				if ( $(window).scrollTop() < count ) {
+		}
+	} else {
+		slide = $('.slide.current').prev()
+			if ( slide.length > 0 ) { 
+			count = slide.offset().top + slide.outerHeight() - $('.slide_pagination').outerHeight()
+			console.log(4)
+			if ( $(window).scrollTop() < count ) {
+				if ( user_clicked_pagination == 0 ) { 
 					Prometheus.Slides.scrollToSlide(slide)
 				}
 			}
 		}
 	}
+	
 
 	$('.slide').each(function(){
 		element = $(this)
