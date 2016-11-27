@@ -16,10 +16,10 @@ Prometheus.Slides = {
 			element.addClass('current')
 			$('body, html').animate({
 				scrollTop: $('.slide[data-id="'+ element.attr('data-id') +'"]').offset().top
-			}, 1000, function(){
+			}, 500, function(){
 				setTimeout(function(){
 					user_clicked_pagination = 0;
-				}, 200)
+				}, 0)
 				
 			})
 		})
