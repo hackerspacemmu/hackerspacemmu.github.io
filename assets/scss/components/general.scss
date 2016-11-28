@@ -79,13 +79,13 @@ body {
 	height:100%;
 }
 .center_vertical_child {
-	@media screen and ( min-width:80em ) {
+	@media screen and ( min-width:60em ) {
 		height:100%;
 	}
 }
 .center_vertical {
 	
-	@media screen and ( min-width:80em ) {
+	@media screen and ( min-width:60em ) {
 		top:50%;
 		transform: translateY(-50%);
 		position: relative;
