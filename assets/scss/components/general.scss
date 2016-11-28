@@ -77,6 +77,7 @@ body {
 
 .center_vertical_parent {
 	height:100%;
+	position: relative;
 }
 .center_vertical_child {
 	@media screen and ( min-width:60em ) {
